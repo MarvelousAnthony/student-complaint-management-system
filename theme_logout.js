@@ -36,6 +36,7 @@ function init() {
     setupTabVisibilityAutoLogout();
     setupPasswordVisibilityToggles();
     setupAlertAutoDismiss();
+    setupDoubleSubmitPrevention();
     
     // Add animations styles to head if not present
     if (!document.getElementById('scms-animation-styles')) {
@@ -334,4 +335,53 @@ function setupAlertAutoDismiss() {
             }, 600);
         }, 5000); // 5 seconds duration
     }
+}
+
+// --- 6. PREVENT DOUBLE FORM SUBMISSIONS ---
+function setupDoubleSubmitPrevention() {
+    document.addEventListener('submit', (e) => {
+        const form = e.target;
+        
+        // If already submitting, prevent subsequent submissions
+        if (form.dataset.submitting === 'true') {
+            e.preventDefault();
+            return;
+        }
+        
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            // Check if it's the logout confirm modal action button
+            if (submitBtn.classList.contains('confirm-logout-btn')) return;
+            
+            form.dataset.submitting = 'true';
+            
+            // Set loading message
+            let loadingMsg = "Processing...";
+            if (form.id === 'login-form') {
+                loadingMsg = "Signing In...";
+            } else if (form.querySelector('[name="action"][value="send_message"]') || form.id === 'reply-form' || form.querySelector('textarea[name="message_text"]')) {
+                loadingMsg = "Sending...";
+            } else if (form.id === 'registration-form') {
+                loadingMsg = "Registering...";
+            }
+            
+            // Save original text
+            submitBtn.dataset.originalHtml = submitBtn.innerHTML;
+            
+            // Set disabled visual classes and replace text with animation spinner
+            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+            submitBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>${loadingMsg}</span>
+            `;
+            
+            // Disable button slightly after to allow form submit event handler to read trigger details
+            setTimeout(() => {
+                submitBtn.disabled = true;
+            }, 50);
+        }
+    });
 }

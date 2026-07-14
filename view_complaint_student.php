@@ -606,19 +606,18 @@ unset($_SESSION['success'], $_SESSION['error']);
                                                                 <button type="submit" class="px-2.5 py-1 bg-indigo-500 hover:bg-indigo-450 text-[10px] text-white rounded font-bold transition-colors">Save</button>
                                                             </div>
                                                         </form>
-
-                                                        <!-- Subtle edit/delete triggers -->
-                                                        <div class="flex justify-end space-x-2 mt-2 pt-1.5 border-t border-white/10 text-[10px] text-white/50 opacity-60 group-hover:opacity-100 transition-opacity">
-                                                            <button type="button" onclick="showEdit(<?php echo $msg['message_id']; ?>)" class="hover:text-white transition-colors">Edit</button>
-                                                            <span>&bull;</span>
-                                                            <form action="" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this reply?');">
-                                                                <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-                                                                <input type="hidden" name="action" value="delete_message">
-                                                                <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
-                                                                <button type="submit" class="hover:text-rose-300 transition-colors">Delete</button>
-                                                            </form>
-                                                        </div>
-                                                    <?php endif; ?>
+                                                        <!-- Edit/Delete Action Triggers -->
+                                                         <div class="flex justify-end items-center space-x-3 mt-2 pt-1.5 border-t border-white/10 text-[11px] font-bold">
+                                                             <button type="button" onclick="showEdit(<?php echo $msg['message_id']; ?>)" class="text-indigo-200 hover:text-white transition-colors">Edit</button>
+                                                             <span class="text-white/20">|</span>
+                                                             <form action="" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this reply?');">
+                                                                 <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                                                                 <input type="hidden" name="action" value="delete_message">
+                                                                 <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
+                                                                 <button type="submit" class="text-rose-300 hover:text-rose-100 transition-colors">Delete</button>
+                                                             </form>
+                                                         </div>
+                                                     <?php endif; ?>
                                                 </div>
                                             </div>
                                         </div>
