@@ -173,6 +173,16 @@ unset($_SESSION['error'], $_SESSION['success']);
                 errorAlert.classList.add('hidden');
             }
         });
+
+        // Force browser password managers and autofill to clear on landing (e.g., after registration redirect)
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const idInput = document.getElementById('identifier');
+                const passInput = document.getElementById('password');
+                if (idInput) idInput.value = '';
+                if (passInput) passInput.value = '';
+            }, 100);
+        });
     </script>
 </body>
 </html>

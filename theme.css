@@ -6,6 +6,12 @@
  * the 'light' class is present on the root <html> or <body> tags.
  */
 
+/* Hide default eye icon in Edge/IE to prevent double eye buttons */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
 /* ==========================================
    GLOBAL OVERRIDES (HTML & BODY)
    ========================================== */
