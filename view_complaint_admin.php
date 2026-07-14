@@ -703,61 +703,73 @@ unset($_SESSION['success'], $_SESSION['error']);
                             <?php if (count($messages) > 0): ?>
                                 <?php foreach ($messages as $msg): ?>
                                     <?php 
-                                    // Align logic: If the sender id matches the current admin ID, it aligns right (You)
-                                    $is_me = ($msg['sender_id'] == $admin_id);
+                                    $is_system_note = (strpos($msg['message_text'], "📢 System Note:") === 0);
                                     
-                                    if ($is_me) {
-                                        $bubble_bg = 'bg-indigo-600 text-white rounded-tr-none';
-                                        $align_class = 'justify-end';
-                                        $sender_label = 'You';
-                                    } else {
-                                        $bubble_bg = 'bg-slate-800 text-slate-200 border border-slate-700/50 rounded-tl-none';
-                                        $align_class = 'justify-start';
-                                        $sender_label = $msg['full_name'] . ' (' . ucwords($msg['role']) . ')';
-                                    }
+                                    if ($is_system_note): 
                                     ?>
-                                    <div class="flex <?php echo $align_class; ?>">
-                                        <div class="max-w-[85%] sm:max-w-[70%]">
-                                            <p class="text-[10px] text-slate-500 font-semibold mb-1 px-1">
-                                                <?php echo htmlspecialchars($sender_label); ?> &bull; <?php echo date('M d, Y h:i A', strtotime($msg['created_at'])); ?>
-                                            </p>
-                                            <div class="p-3.5 rounded-2xl text-sm leading-relaxed break-words shadow-md <?php echo $bubble_bg; ?> relative group">
-                                                <div id="msg-text-<?php echo $msg['message_id']; ?>">
-                                                    <?php echo nl2br(htmlspecialchars($msg['message_text'])); ?>
-                                                </div>
-                                                
-                                                <?php 
-                                                // Check if editable (only if it's "me" and not a system note)
-                                                $is_system_note = (strpos($msg['message_text'], "📢 System Note:") === 0);
-                                                if ($is_me && !$is_system_note): 
-                                                ?>
-                                                    <!-- Edit Form -->
-                                                    <form id="edit-form-<?php echo $msg['message_id']; ?>" action="" method="POST" class="hidden mt-2 space-y-2">
-                                                        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-                                                        <input type="hidden" name="action" value="edit_message">
-                                                        <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
-                                                        <textarea name="edited_text" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-indigo-500" rows="2" required><?php echo htmlspecialchars($msg['message_text']); ?></textarea>
-                                                        <div class="flex justify-end space-x-2">
-                                                            <button type="button" onclick="cancelEdit(<?php echo $msg['message_id']; ?>)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-750 text-[10px] text-slate-300 rounded font-semibold transition-colors">Cancel</button>
-                                                            <button type="submit" class="px-2.5 py-1 bg-indigo-500 hover:bg-indigo-450 text-[10px] text-white rounded font-bold transition-colors">Save</button>
-                                                        </div>
-                                                    </form>
-
-                                                    <!-- Subtle edit/delete triggers -->
-                                                    <div class="flex justify-end space-x-2 mt-2 pt-1.5 border-t border-white/10 text-[10px] text-white/50 opacity-60 group-hover:opacity-100 transition-opacity">
-                                                        <button type="button" onclick="showEdit(<?php echo $msg['message_id']; ?>)" class="hover:text-white transition-colors">Edit</button>
-                                                        <span>&bull;</span>
-                                                        <form action="" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this reply?');">
-                                                            <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-                                                            <input type="hidden" name="action" value="delete_message">
-                                                            <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
-                                                            <button type="submit" class="hover:text-rose-300 transition-colors">Delete</button>
-                                                        </form>
-                                                    </div>
-                                                <?php endif; ?>
+                                        <!-- Centered System Note Timeline Badge -->
+                                        <div class="flex justify-center my-3">
+                                            <div class="px-4 py-2 bg-slate-900/50 border border-slate-800/80 rounded-full text-xs text-slate-400 font-medium flex items-center space-x-2 shadow-sm">
+                                                <span><?php echo htmlspecialchars($msg['message_text']); ?></span>
+                                                <span class="text-[9px] text-slate-500 font-mono">&bull; <?php echo date('M d, h:i A', strtotime($msg['created_at'])); ?></span>
                                             </div>
                                         </div>
-                                    </div>
+                                    <?php else: ?>
+                                        <?php 
+                                        // Align logic: If the sender id matches the current admin ID, it aligns right (You)
+                                        $is_me = ($msg['sender_id'] == $admin_id);
+                                        
+                                        if ($is_me) {
+                                            $bubble_bg = 'bg-gradient-to-br from-indigo-500 to-indigo-650 text-white rounded-tr-none shadow-lg shadow-indigo-500/10';
+                                            $align_class = 'justify-end';
+                                            $sender_label = 'You';
+                                        } else {
+                                            $bubble_bg = 'bg-slate-900/60 backdrop-blur-md text-slate-100 border border-white/5 rounded-tl-none shadow-md';
+                                            $align_class = 'justify-start';
+                                            $sender_label = $msg['full_name'] . ' (' . ucwords($msg['role']) . ')';
+                                        }
+                                        ?>
+                                        <div class="flex <?php echo $align_class; ?>">
+                                            <div class="max-w-[85%] sm:max-w-[70%]">
+                                                <!-- Meta info -->
+                                                <p class="text-[10px] text-slate-500 font-semibold mb-1 px-1">
+                                                    <?php echo htmlspecialchars($sender_label); ?> &bull; <?php echo date('M d, Y h:i A', strtotime($msg['created_at'])); ?>
+                                                </p>
+                                                <!-- Message text -->
+                                                <div class="p-3.5 rounded-2xl text-sm leading-relaxed break-words shadow-md <?php echo $bubble_bg; ?> relative group">
+                                                    <div id="msg-text-<?php echo $msg['message_id']; ?>">
+                                                        <?php echo nl2br(htmlspecialchars($msg['message_text'])); ?>
+                                                    </div>
+                                                    
+                                                    <?php if ($is_me): ?>
+                                                        <!-- Edit Form -->
+                                                        <form id="edit-form-<?php echo $msg['message_id']; ?>" action="" method="POST" class="hidden mt-2 space-y-2">
+                                                            <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                                                            <input type="hidden" name="action" value="edit_message">
+                                                            <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
+                                                            <textarea name="edited_text" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-indigo-500" rows="2" required><?php echo htmlspecialchars($msg['message_text']); ?></textarea>
+                                                            <div class="flex justify-end space-x-2">
+                                                                <button type="button" onclick="cancelEdit(<?php echo $msg['message_id']; ?>)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-750 text-[10px] text-slate-300 rounded font-semibold transition-colors">Cancel</button>
+                                                                <button type="submit" class="px-2.5 py-1 bg-indigo-500 hover:bg-indigo-450 text-[10px] text-white rounded font-bold transition-colors">Save</button>
+                                                            </div>
+                                                        </form>
+
+                                                        <!-- Subtle edit/delete triggers -->
+                                                        <div class="flex justify-end space-x-2 mt-2 pt-1.5 border-t border-white/10 text-[10px] text-white/50 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                            <button type="button" onclick="showEdit(<?php echo $msg['message_id']; ?>)" class="hover:text-white transition-colors">Edit</button>
+                                                            <span>&bull;</span>
+                                                            <form action="" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this reply?');">
+                                                                <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                                                                <input type="hidden" name="action" value="delete_message">
+                                                                <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
+                                                                <button type="submit" class="hover:text-rose-300 transition-colors">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <div class="h-full flex flex-col items-center justify-center text-center p-6 text-slate-500">

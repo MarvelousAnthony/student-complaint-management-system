@@ -62,7 +62,9 @@ unset($_SESSION['error'], $_SESSION['success']);
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md z-10">
-        <div class="bg-slate-900/60 backdrop-blur-xl py-8 px-4 border border-slate-800 rounded-2xl shadow-2xl sm:px-10">
+        <div class="bg-slate-900/60 backdrop-blur-xl py-8 px-4 border border-slate-800 rounded-2xl shadow-2xl sm:px-10 relative overflow-hidden">
+            <!-- Top Gradient Accent Line -->
+            <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             
             <!-- Alert Display -->
             <?php if ($error_msg): ?>
@@ -101,27 +103,37 @@ unset($_SESSION['error'], $_SESSION['success']);
 
                 <!-- Identifier -->
                 <div>
-                    <label for="identifier" class="block text-sm font-medium text-slate-300">
+                    <label for="identifier" class="block text-sm font-medium text-slate-350">
                         Email, Matric No, or Staff ID
                     </label>
-                    <div class="mt-1">
+                    <div class="mt-1.5 relative rounded-xl shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
                         <input id="identifier" name="identifier" type="text" autocomplete="username" required 
-                            class="appearance-none block w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
-                            placeholder="Email, Matric No (YY/XXXX) or Staff ID (YY/AU/MMMM)">
+                            class="appearance-none block w-full pl-11 pr-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-650 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/80 transition-all text-sm"
+                            placeholder="Email, Matric No, or Staff ID">
                     </div>
                 </div>
 
                 <!-- Password -->
                 <div>
                     <div class="flex justify-between items-center">
-                        <label for="password" class="block text-sm font-medium text-slate-300">Password</label>
+                        <label for="password" class="block text-sm font-medium text-slate-350">Password</label>
                         <a href="forgot_password.php" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
                             Forgot Password?
                         </a>
                     </div>
-                    <div class="mt-1">
+                    <div class="mt-1.5 relative rounded-xl shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
                         <input id="password" name="password" type="password" autocomplete="current-password" required 
-                            class="appearance-none block w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                            class="appearance-none block w-full pl-11 pr-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-650 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/80 transition-all text-sm"
                             placeholder="••••••••">
                     </div>
                 </div>
@@ -129,7 +141,7 @@ unset($_SESSION['error'], $_SESSION['success']);
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" 
-                        class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150 active:scale-[0.99] shadow-indigo-600/20">
+                        class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150 active:scale-[0.99] shadow-indigo-600/20">
                         Sign In
                     </button>
                 </div>

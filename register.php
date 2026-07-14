@@ -64,7 +64,9 @@ unset($_SESSION['error'], $_SESSION['success']);
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-xl z-10">
-        <div class="bg-slate-900/60 backdrop-blur-xl py-8 px-4 border border-slate-800 rounded-2xl shadow-2xl sm:px-10">
+        <div class="bg-slate-900/60 backdrop-blur-xl py-8 px-4 border border-slate-800 rounded-2xl shadow-2xl sm:px-10 relative overflow-hidden">
+            <!-- Top Gradient Accent Line -->
+            <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             
             <!-- Alert Display -->
             <?php if ($error_msg): ?>
@@ -244,7 +246,7 @@ unset($_SESSION['error'], $_SESSION['success']);
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" 
-                        class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150 active:scale-[0.99] shadow-indigo-600/20">
+                        class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150 active:scale-[0.99] shadow-indigo-600/20">
                         Create Account
                     </button>
                 </div>
