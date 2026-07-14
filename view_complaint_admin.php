@@ -235,6 +235,122 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 // ----------------------------------------------------
+// 2b. Process Message Deletion (POST Request)
+// ----------------------------------------------------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_message') {
+    // Verify CSRF
+    $token = $_POST['csrf_token'] ?? '';
+    if (!verify_csrf_token($token)) {
+        $_SESSION['error'] = "Security validation failed. Invalid CSRF token.";
+        header("Location: view_complaint_admin.php?id=" . $complaint_id);
+        exit();
+    }
+
+    $message_id = intval($_POST['message_id'] ?? 0);
+    try {
+        // Fetch message to verify ownership
+        $check_query = "SELECT sender_id, message_text FROM messages WHERE id = ? AND complaint_id = ? LIMIT 1";
+        $c_stmt = mysqli_prepare($conn, $check_query);
+        mysqli_stmt_bind_param($c_stmt, "ii", $message_id, $complaint_id);
+        mysqli_stmt_execute($c_stmt);
+        $res = mysqli_stmt_get_result($c_stmt);
+        $msg = mysqli_fetch_assoc($res);
+        mysqli_stmt_close($c_stmt);
+
+        if (!$msg) {
+            throw new Exception("Reply not found.");
+        }
+
+        // Validate sender_id matches logged-in admin user
+        if ($msg['sender_id'] != $admin_id) {
+            throw new Exception("Unauthorized delete attempt.");
+        }
+
+        // Prevent deleting System Notes
+        if (strpos($msg['message_text'], "📢 System Note:") === 0) {
+            throw new Exception("System notes cannot be deleted.");
+        }
+
+        // Perform deletion
+        $del_query = "DELETE FROM messages WHERE id = ?";
+        $d_stmt = mysqli_prepare($conn, $del_query);
+        mysqli_stmt_bind_param($d_stmt, "i", $message_id);
+        mysqli_stmt_execute($d_stmt);
+        mysqli_stmt_close($d_stmt);
+
+        $_SESSION['success'] = "Reply deleted successfully.";
+
+    } catch (Exception $e) {
+        error_log("Failed to delete message: " . $e->getMessage());
+        $_SESSION['error'] = $e->getMessage();
+    }
+
+    header("Location: view_complaint_admin.php?id=" . $complaint_id);
+    exit();
+}
+
+// ----------------------------------------------------
+// 2c. Process Message Editing (POST Request)
+// ----------------------------------------------------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'edit_message') {
+    // Verify CSRF
+    $token = $_POST['csrf_token'] ?? '';
+    if (!verify_csrf_token($token)) {
+        $_SESSION['error'] = "Security validation failed. Invalid CSRF token.";
+        header("Location: view_complaint_admin.php?id=" . $complaint_id);
+        exit();
+    }
+
+    $message_id = intval($_POST['message_id'] ?? 0);
+    $edited_text = trim($_POST['edited_text'] ?? '');
+
+    try {
+        if (empty($edited_text)) {
+            throw new Exception("Reply content cannot be empty.");
+        }
+
+        // Fetch message to verify ownership
+        $check_query = "SELECT sender_id, message_text FROM messages WHERE id = ? AND complaint_id = ? LIMIT 1";
+        $c_stmt = mysqli_prepare($conn, $check_query);
+        mysqli_stmt_bind_param($c_stmt, "ii", $message_id, $complaint_id);
+        mysqli_stmt_execute($c_stmt);
+        $res = mysqli_stmt_get_result($c_stmt);
+        $msg = mysqli_fetch_assoc($res);
+        mysqli_stmt_close($c_stmt);
+
+        if (!$msg) {
+            throw new Exception("Reply not found.");
+        }
+
+        // Validate sender_id matches logged-in admin user
+        if ($msg['sender_id'] != $admin_id) {
+            throw new Exception("Unauthorized edit attempt.");
+        }
+
+        // Prevent editing System Notes
+        if (strpos($msg['message_text'], "📢 System Note:") === 0) {
+            throw new Exception("System notes cannot be modified.");
+        }
+
+        // Perform update
+        $up_query = "UPDATE messages SET message_text = ? WHERE id = ?";
+        $u_stmt = mysqli_prepare($conn, $up_query);
+        mysqli_stmt_bind_param($u_stmt, "si", $edited_text, $message_id);
+        mysqli_stmt_execute($u_stmt);
+        mysqli_stmt_close($u_stmt);
+
+        $_SESSION['success'] = "Reply updated successfully.";
+
+    } catch (Exception $e) {
+        error_log("Failed to edit message: " . $e->getMessage());
+        $_SESSION['error'] = $e->getMessage();
+    }
+
+    header("Location: view_complaint_admin.php?id=" . $complaint_id);
+    exit();
+}
+
+// ----------------------------------------------------
 // 3. Fetch Complaint Details & Student Info (Joined)
 // ----------------------------------------------------
 $complaint = null;
@@ -272,7 +388,7 @@ try {
 $messages = [];
 try {
     $msg_history_query = "
-        SELECT m.message_text, m.created_at, u.full_name, u.role, u.id as sender_id 
+        SELECT m.id as message_id, m.message_text, m.created_at, u.full_name, u.role, u.id as sender_id 
         FROM messages m 
         JOIN users u ON m.sender_id = u.id 
         WHERE m.complaint_id = ? 
@@ -605,8 +721,40 @@ unset($_SESSION['success'], $_SESSION['error']);
                                             <p class="text-[10px] text-slate-500 font-semibold mb-1 px-1">
                                                 <?php echo htmlspecialchars($sender_label); ?> &bull; <?php echo date('M d, Y h:i A', strtotime($msg['created_at'])); ?>
                                             </p>
-                                            <div class="p-3.5 rounded-2xl text-sm leading-relaxed break-words shadow-md <?php echo $bubble_bg; ?>">
-                                                <?php echo nl2br(htmlspecialchars($msg['message_text'])); ?>
+                                            <div class="p-3.5 rounded-2xl text-sm leading-relaxed break-words shadow-md <?php echo $bubble_bg; ?> relative group">
+                                                <div id="msg-text-<?php echo $msg['message_id']; ?>">
+                                                    <?php echo nl2br(htmlspecialchars($msg['message_text'])); ?>
+                                                </div>
+                                                
+                                                <?php 
+                                                // Check if editable (only if it's "me" and not a system note)
+                                                $is_system_note = (strpos($msg['message_text'], "📢 System Note:") === 0);
+                                                if ($is_me && !$is_system_note): 
+                                                ?>
+                                                    <!-- Edit Form -->
+                                                    <form id="edit-form-<?php echo $msg['message_id']; ?>" action="" method="POST" class="hidden mt-2 space-y-2">
+                                                        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                                                        <input type="hidden" name="action" value="edit_message">
+                                                        <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
+                                                        <textarea name="edited_text" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-indigo-500" rows="2" required><?php echo htmlspecialchars($msg['message_text']); ?></textarea>
+                                                        <div class="flex justify-end space-x-2">
+                                                            <button type="button" onclick="cancelEdit(<?php echo $msg['message_id']; ?>)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-750 text-[10px] text-slate-300 rounded font-semibold transition-colors">Cancel</button>
+                                                            <button type="submit" class="px-2.5 py-1 bg-indigo-500 hover:bg-indigo-450 text-[10px] text-white rounded font-bold transition-colors">Save</button>
+                                                        </div>
+                                                    </form>
+
+                                                    <!-- Subtle edit/delete triggers -->
+                                                    <div class="flex justify-end space-x-2 mt-2 pt-1.5 border-t border-white/10 text-[10px] text-white/50 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                        <button type="button" onclick="showEdit(<?php echo $msg['message_id']; ?>)" class="hover:text-white transition-colors">Edit</button>
+                                                        <span>&bull;</span>
+                                                        <form action="" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this reply?');">
+                                                            <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                                                            <input type="hidden" name="action" value="delete_message">
+                                                            <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
+                                                            <button type="submit" class="hover:text-rose-300 transition-colors">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -861,6 +1009,16 @@ unset($_SESSION['success'], $_SESSION['error']);
             }, 1000);
         });
 
+        // Inline Comment Editing JS triggers
+        function showEdit(id) {
+            document.getElementById('msg-text-' + id).classList.add('hidden');
+            document.getElementById('edit-form-' + id).classList.remove('hidden');
+        }
+
+        function cancelEdit(id) {
+            document.getElementById('msg-text-' + id).classList.remove('hidden');
+            document.getElementById('edit-form-' + id).classList.add('hidden');
+        }
     </script>
 </body>
 </html>
