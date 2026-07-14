@@ -170,16 +170,15 @@ function triggerLogoutModal(logoutUrl) {
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-base font-bold ${textColor}">Sign Out Confirmation</h3>
-                    <p class="text-xs ${muteColor} mt-1">Are you sure you want to sign out of Adeleke University CMS?</p>
+                    <h3 class="text-base font-bold ${textColor}">Are you sure you want to log out?</h3>
                 </div>
             </div>
             <div class="mt-6 flex justify-end space-x-3">
-                <button id="logout-cancel-btn" class="px-4 py-2 text-xs font-semibold rounded-xl transition-all ${cancelBtnBg}">
-                    No, Keep Me In
+                <button id="logout-cancel-btn" class="px-5 py-2.5 text-xs font-bold rounded-xl transition-all ${cancelBtnBg}">
+                    No
                 </button>
-                <a href="${logoutUrl}" class="confirm-logout-btn px-4.5 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-xl transition-all shadow-lg shadow-rose-600/15">
-                    Yes, Sign Out
+                <a href="${logoutUrl}" class="confirm-logout-btn px-6 py-2.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-rose-600/15">
+                    Yes
                 </a>
             </div>
         </div>
