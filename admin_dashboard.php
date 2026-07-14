@@ -312,11 +312,17 @@ unset($_SESSION['success'], $_SESSION['error']);
                 <h1 class="text-lg font-bold text-white"><?php echo $admin_role === 'super_admin' ? 'Administrative Control Center' : htmlspecialchars($_SESSION['department']) . ' Portal'; ?></h1>
             </div>
 
-            <!-- Profile Info Mobile/Top -->
+            <!-- Profile Info & Sign Out Actions -->
             <div class="flex items-center space-x-4">
-                <span class="text-xs px-2.5 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-full font-semibold uppercase tracking-wider">
+                <span class="text-xs px-2.5 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-full font-semibold uppercase tracking-wider hidden sm:inline-block">
                     <?php echo str_replace('_', ' ', $admin_role); ?> | <?php echo htmlspecialchars($_SESSION['department']); ?>
                 </span>
+                <a href="logout.php" class="text-xs font-semibold text-rose-450 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sign Out</span>
+                </a>
             </div>
         </header>
 
@@ -381,6 +387,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 
         <!-- Scrollable Admin Dashboard Content -->
         <main class="flex-1 overflow-y-auto p-6 relative">
+            <div class="max-w-7xl mx-auto w-full">
             <!-- Alert Display -->
             <?php if ($success_msg): ?>
                 <div class="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm flex items-start space-x-3 max-w-7xl">
@@ -563,7 +570,7 @@ unset($_SESSION['success'], $_SESSION['error']);
             </div>
 
             <!-- Complaints Table -->
-            <div class="max-w-7xl">
+            <div class="w-full">
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-xl">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-slate-850">
@@ -667,6 +674,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                         </table>
                     </div>
                 </div>
+            </div>
             </div>
         </main>
     </div>

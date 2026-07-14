@@ -198,10 +198,17 @@ $csrf_token = get_csrf_token();
                 </button>
                 <h1 class="text-lg font-bold text-white">Security Settings</h1>
             </div>
-            <div>
-                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase">
+            <!-- Profile Info & Sign Out Actions -->
+            <div class="flex items-center space-x-4">
+                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase hidden sm:inline-block">
                     <?php echo htmlspecialchars($user_role); ?>
                 </span>
+                <a href="logout.php" class="text-xs font-semibold text-rose-450 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sign Out</span>
+                </a>
             </div>
         </header>
 
@@ -275,7 +282,7 @@ $csrf_token = get_csrf_token();
 
         <!-- Form Workspace -->
         <main class="flex-1 overflow-y-auto p-6 space-y-6">
-            <div class="max-w-xl bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <div class="max-w-xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
                 <h2 class="text-xl font-bold text-white mb-2">Change Password</h2>
                 <p class="text-xs text-slate-400 mb-6">Update your password regularly to maintain account security.</p>
 

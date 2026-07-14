@@ -158,11 +158,17 @@ unset($_SESSION['success'], $_SESSION['error']);
                 <h1 class="text-lg font-bold text-white">Student Complaint Portal</h1>
             </div>
 
-            <!-- Profile Info Mobile/Top -->
+            <!-- Profile Info & Sign Out Actions -->
             <div class="flex items-center space-x-4">
-                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase tracking-wider">
+                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase tracking-wider hidden sm:inline-block">
                     Student Account
                 </span>
+                <a href="logout.php" class="text-xs font-semibold text-rose-450 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sign Out</span>
+                </a>
             </div>
         </header>
 
@@ -219,6 +225,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 
         <!-- Scrollable Dashboard Content -->
         <main class="flex-1 overflow-y-auto p-6 relative">
+            <div class="max-w-7xl mx-auto w-full">
             <!-- Alert Display -->
             <?php if ($success_msg): ?>
                 <div class="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm flex items-start space-x-3 max-w-4xl">
@@ -328,7 +335,7 @@ unset($_SESSION['success'], $_SESSION['error']);
             </div>
 
             <!-- Complaints History Table Section -->
-            <div class="max-w-6xl">
+            <div class="w-full">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-bold text-white">Complaint History</h3>
                     <a href="submit_complaint.php" class="inline-flex items-center px-4 py-2 text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-600/10 active:scale-[0.98] transition-all">
@@ -424,6 +431,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                         </table>
                     </div>
                 </div>
+            </div>
             </div>
         </main>
     </div>

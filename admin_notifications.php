@@ -190,12 +190,18 @@ unset($_SESSION['success'], $_SESSION['error']);
                 <h1 class="text-lg font-bold text-white">Notifications</h1>
             </div>
 
-            <div>
+            <div class="flex items-center space-x-4">
                 <?php if (count($notifications) > 0): ?>
-                    <a href="admin_notifications.php?action=mark_all_read" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
+                    <a href="admin_notifications.php?action=mark_all_read" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold transition-colors mr-2">
                         Mark All as Read
                     </a>
                 <?php endif; ?>
+                <a href="logout.php" class="text-xs font-semibold text-rose-450 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sign Out</span>
+                </a>
             </div>
         </header>
 
@@ -259,7 +265,8 @@ unset($_SESSION['success'], $_SESSION['error']);
         </div>
 
         <!-- Scrollable notifications container -->
-        <main class="flex-1 overflow-y-auto p-6 relative max-w-4xl w-full">
+        <main class="flex-1 overflow-y-auto p-6 relative">
+            <div class="max-w-4xl mx-auto w-full">
             
             <!-- Alert Display -->
             <?php if ($success_msg): ?>
@@ -330,6 +337,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                     <p class="text-xs text-slate-600 mt-1 max-w-xs">You're all caught up! You will receive system notifications here when new complaints are created or replies are sent.</p>
                 </div>
             <?php endif; ?>
+            </div>
         </main>
     </div>
 

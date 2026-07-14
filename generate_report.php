@@ -308,10 +308,17 @@ try {
                 </button>
                 <h1 class="text-lg font-bold text-white">System Reports</h1>
             </div>
-            <div>
-                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase">
+            <!-- Profile Info & Sign Out Actions -->
+            <div class="flex items-center space-x-4">
+                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase hidden sm:inline-block">
                     Analytical Ledger
                 </span>
+                <a href="logout.php" class="text-xs font-semibold text-rose-450 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sign Out</span>
+                </a>
             </div>
         </header>
 
@@ -374,9 +381,10 @@ try {
 
         <!-- Scrollable Report Container -->
         <main class="flex-1 overflow-y-auto p-6 space-y-6">
+            <div class="max-w-7xl mx-auto w-full space-y-6">
             
             <!-- Report Controls (Screen Only) -->
-            <div id="print-controls" class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-4 border border-slate-800 rounded-2xl max-w-5xl">
+            <div id="print-controls" class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-4 border border-slate-800 rounded-2xl w-full">
                 <div class="flex items-center space-x-2">
                     <span class="text-xs font-semibold text-slate-400 uppercase">Select Period:</span>
                     <a href="generate_report.php?range=week" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold <?php echo $range === 'week' ? 'bg-indigo-600 text-white' : 'bg-slate-850 hover:bg-slate-800 text-slate-400'; ?> transition-all">Week</a>
@@ -393,7 +401,7 @@ try {
             </div>
 
             <!-- Printable Layout Container -->
-            <div class="max-w-5xl space-y-6">
+            <div class="w-full space-y-6">
                 
                 <!-- Print Specific Header (Hidden on Screen, Visible on Paper) -->
                 <div id="print-report-header" class="hidden text-center border-b pb-6 mb-6">
@@ -563,6 +571,7 @@ try {
                     </div>
                 </div>
 
+            </div>
             </div>
         </main>
     </div>

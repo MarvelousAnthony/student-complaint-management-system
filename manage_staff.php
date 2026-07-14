@@ -247,10 +247,17 @@ $csrf_token = get_csrf_token();
                 </button>
                 <h1 class="text-lg font-bold text-white">Staff Account Administration</h1>
             </div>
-            <div>
-                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase tracking-wider">
+            <!-- Profile Info & Sign Out Actions -->
+            <div class="flex items-center space-x-4">
+                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase tracking-wider hidden sm:inline-block">
                     Super Admin Console
                 </span>
+                <a href="logout.php" class="text-xs font-semibold text-rose-450 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sign Out</span>
+                </a>
             </div>
         </header>
 
@@ -313,21 +320,22 @@ $csrf_token = get_csrf_token();
 
         <!-- Main Body -->
         <main class="flex-1 overflow-y-auto p-6 space-y-6">
+            <div class="max-w-7xl mx-auto w-full space-y-6">
             
             <!-- Notifications alerts -->
             <?php if ($error_msg): ?>
-                <div class="bg-rose-500/10 border border-rose-500/20 text-rose-400 px-4 py-3 rounded-xl text-xs font-semibold max-w-5xl">
+                <div class="bg-rose-500/10 border border-rose-500/20 text-rose-400 px-4 py-3 rounded-xl text-xs font-semibold w-full">
                     <?php echo htmlspecialchars($error_msg); ?>
                 </div>
             <?php endif; ?>
             <?php if ($success_msg): ?>
-                <div class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-3 rounded-xl text-xs font-semibold max-w-5xl">
+                <div class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-3 rounded-xl text-xs font-semibold w-full">
                     <?php echo htmlspecialchars($success_msg); ?>
                 </div>
             <?php endif; ?>
 
             <!-- Add Staff Member Card Form -->
-            <div class="max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <div class="max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl mx-auto lg:mx-0">
                 <h2 class="text-base font-bold text-white mb-2">Register New Staff / Admin</h2>
                 <p class="text-xs text-slate-400 mb-6">Create authorized account parameters. Newly registered staff can login immediately using their email or Staff ID.</p>
 
@@ -477,6 +485,7 @@ $csrf_token = get_csrf_token();
                 </div>
             </div>
 
+            </div>
         </main>
     </div>
 

@@ -109,11 +109,17 @@ unset($_SESSION['error']);
                 <h1 class="text-lg font-bold text-white">File a New Complaint</h1>
             </div>
 
-            <!-- Profile Info Mobile/Top -->
+            <!-- Profile Info & Sign Out Actions -->
             <div class="flex items-center space-x-4">
-                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase tracking-wider">
+                <span class="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-indigo-400 rounded-full font-semibold uppercase tracking-wider hidden sm:inline-block">
                     Student Account
                 </span>
+                <a href="logout.php" class="text-xs font-semibold text-rose-450 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sign Out</span>
+                </a>
             </div>
         </header>
 
@@ -170,7 +176,7 @@ unset($_SESSION['error']);
 
         <!-- Scrollable Form Content -->
         <main class="flex-1 overflow-y-auto p-6 relative">
-            <div class="max-w-3xl">
+            <div class="max-w-3xl mx-auto w-full">
                 
                 <!-- Alert Display -->
                 <?php if ($error_msg): ?>
