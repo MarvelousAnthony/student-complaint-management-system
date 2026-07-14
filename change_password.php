@@ -106,7 +106,7 @@ $csrf_token = get_csrf_token();
 <body class="h-full bg-slate-950 text-slate-100 flex overflow-hidden">
 
     <!-- SIDEBAR (Renders dynamically based on student vs admin role) -->
-    <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between hidden md:flex z-20">
+    <aside class="hidden">
         <div>
             <div class="h-16 flex items-center px-6 border-b border-slate-800">
                 <div class="flex items-center space-x-2">
@@ -190,6 +190,12 @@ $csrf_token = get_csrf_token();
         <!-- Header -->
         <header class="h-16 border-b border-slate-800 bg-slate-950 flex items-center justify-between px-6 z-10">
             <div class="flex items-center space-x-4">
+                <!-- Hamburger menu toggle -->
+                <button class="text-slate-400 hover:text-white" onclick="toggleMobileMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
                 <h1 class="text-lg font-bold text-white">Security Settings</h1>
             </div>
             <div>
@@ -198,6 +204,74 @@ $csrf_token = get_csrf_token();
                 </span>
             </div>
         </header>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu" class="fixed inset-0 z-30 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex">
+            <!-- Dismiss overlay -->
+            <div class="absolute inset-0" onclick="toggleMobileMenu()"></div>
+            
+            <div id="mobile-drawer-panel" class="relative w-64 bg-slate-900 h-full p-6 border-r border-slate-800 flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-in-out z-10">
+                <div>
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-650 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                            <span class="font-bold text-white"><?php echo $user_role === 'student' ? 'CMS Portal' : 'CMS Admin'; ?></span>
+                        </div>
+                        <button class="text-slate-400 hover:text-white" onclick="toggleMobileMenu()">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="space-y-2">
+                        <?php if ($user_role === 'student'): ?>
+                            <a href="student_dashboard.php" class="text-slate-400 hover:bg-slate-800 hover:text-white flex items-center px-4 py-3 text-sm font-semibold rounded-xl">
+                                Dashboard
+                            </a>
+                            <a href="submit_complaint.php" class="text-slate-400 hover:bg-slate-800 hover:text-white flex items-center px-4 py-3 text-sm font-semibold rounded-xl">
+                                File a Complaint
+                            </a>
+                        <?php else: ?>
+                            <a href="admin_dashboard.php" class="text-slate-400 hover:bg-slate-800 hover:text-white flex items-center px-4 py-3 text-sm font-semibold rounded-xl">
+                                Dashboard
+                            </a>
+                            <?php if ($user_role === 'super_admin'): ?>
+                                <a href="generate_report.php" class="text-slate-400 hover:bg-slate-800 hover:text-white flex items-center px-4 py-3 text-sm font-semibold rounded-xl">
+                                    Report Center
+                                </a>
+                                <a href="manage_staff.php" class="text-slate-400 hover:bg-slate-800 hover:text-white flex items-center px-4 py-3 text-sm font-semibold rounded-xl">
+                                    Manage Staff
+                                </a>
+                            <?php endif; ?>
+                            <a href="admin_notifications.php" class="text-slate-400 hover:bg-slate-800 hover:text-white flex items-center px-4 py-3 text-sm font-semibold rounded-xl">
+                                Notifications
+                            </a>
+                        <?php endif; ?>
+                        <a href="change_password.php" class="bg-indigo-600 text-white flex items-center px-4 py-3 text-sm font-semibold rounded-xl shadow-lg shadow-indigo-600/10">
+                            Security Settings
+                        </a>
+                    </nav>
+                </div>
+                <div class="border-t border-slate-800 pt-6">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-indigo-400 font-bold border border-slate-700">
+                            <?php echo strtoupper(substr($user_name, 0, 2)); ?>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-white"><?php echo htmlspecialchars($user_name); ?></p>
+                            <p class="text-xs text-slate-500 uppercase"><?php echo htmlspecialchars($user_identifier); ?></p>
+                        </div>
+                    </div>
+                    <a href="logout.php" class="w-full flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 rounded-xl transition-all">
+                        Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Form Workspace -->
         <main class="flex-1 overflow-y-auto p-6 space-y-6">
@@ -257,5 +331,24 @@ $csrf_token = get_csrf_token();
             </div>
         </main>
     </div>
+
+    <!-- Script for mobile menu toggle -->
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const panel = document.getElementById('mobile-drawer-panel');
+            if (menu.classList.contains('pointer-events-none')) {
+                menu.classList.remove('pointer-events-none', 'opacity-0');
+                menu.classList.add('pointer-events-auto', 'opacity-100');
+                panel.classList.remove('-translate-x-full');
+                panel.classList.add('translate-x-0');
+            } else {
+                menu.classList.remove('pointer-events-auto', 'opacity-100');
+                menu.classList.add('pointer-events-none', 'opacity-0');
+                panel.classList.remove('translate-x-0');
+                panel.classList.add('-translate-x-full');
+            }
+        }
+    </script>
 </body>
 </html>

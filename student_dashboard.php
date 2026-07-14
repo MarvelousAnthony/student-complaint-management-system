@@ -85,7 +85,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 <body class="h-full bg-slate-950 text-slate-100 flex overflow-hidden">
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between hidden md:flex z-20">
+    <aside class="hidden">
         <div>
             <!-- Header Brand -->
             <div class="h-16 flex items-center px-6 border-b border-slate-800">
@@ -148,7 +148,7 @@ unset($_SESSION['success'], $_SESSION['error']);
         <!-- Header -->
         <header class="h-16 border-b border-slate-800 bg-slate-950 flex items-center justify-between px-6 z-10">
             <!-- Mobile Menu Toggle -->
-            <button class="md:hidden text-slate-400 hover:text-white" onclick="toggleMobileMenu()">
+            <button class="text-slate-400 hover:text-white" onclick="toggleMobileMenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -167,7 +167,7 @@ unset($_SESSION['success'], $_SESSION['error']);
         </header>
 
         <!-- Mobile Drawer Navigation -->
-        <div id="mobile-menu" class="fixed inset-0 z-30 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex md:hidden">
+        <div id="mobile-menu" class="fixed inset-0 z-30 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex">
             <!-- Dismiss overlay -->
             <div class="absolute inset-0" onclick="toggleMobileMenu()"></div>
             
