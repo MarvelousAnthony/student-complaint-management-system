@@ -199,8 +199,11 @@ unset($_SESSION['success'], $_SESSION['error']);
         </header>
 
         <!-- Mobile Menu Drawer -->
-        <div id="mobile-menu" class="fixed inset-0 z-30 bg-slate-950/80 backdrop-blur-sm hidden flex md:hidden">
-            <div class="w-64 bg-slate-900 h-full p-6 border-r border-slate-800 flex flex-col justify-between">
+        <div id="mobile-menu" class="fixed inset-0 z-30 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex md:hidden">
+            <!-- Dismiss overlay -->
+            <div class="absolute inset-0" onclick="toggleMobileMenu()"></div>
+            
+            <div id="mobile-drawer-panel" class="relative w-64 bg-slate-900 h-full p-6 border-r border-slate-800 flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-in-out z-10">
                 <div>
                     <div class="flex items-center justify-between mb-8">
                         <div class="flex items-center space-x-2">
@@ -333,10 +336,17 @@ unset($_SESSION['success'], $_SESSION['error']);
     <script>
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
+            const panel = document.getElementById('mobile-drawer-panel');
+            if (menu.classList.contains('pointer-events-none')) {
+                menu.classList.remove('pointer-events-none', 'opacity-0');
+                menu.classList.add('pointer-events-auto', 'opacity-100');
+                panel.classList.remove('-translate-x-full');
+                panel.classList.add('translate-x-0');
             } else {
-                menu.classList.add('hidden');
+                menu.classList.remove('pointer-events-auto', 'opacity-100');
+                menu.classList.add('pointer-events-none', 'opacity-0');
+                panel.classList.remove('translate-x-0');
+                panel.classList.add('-translate-x-full');
             }
         }
     </script>
