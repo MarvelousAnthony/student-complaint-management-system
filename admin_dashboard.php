@@ -403,44 +403,44 @@ unset($_SESSION['success'], $_SESSION['error']);
             </div>
 
             <!-- Stats/Metrics Cards -->
-            <div class="flex overflow-x-auto gap-6 mb-8 pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-slate-850 scrollbar-track-transparent">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
                 <!-- Total Complaints -->
-                <div class="flex-shrink-0 w-64 snap-start bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-indigo-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-indigo-500/5">
+                <div class="bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-indigo-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-indigo-500/5">
                     <div class="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-indigo-500/5 rounded-full blur-xl"></div>
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Complaints</p>
                     <h3 class="text-3xl font-bold text-white mt-2"><?php echo $total_count; ?></h3>
                 </div>
 
                 <!-- Complaints Today -->
-                <div class="flex-shrink-0 w-64 snap-start bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-blue-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-blue-500/5">
+                <div class="bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-blue-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-blue-500/5">
                     <div class="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-blue-500/5 rounded-full blur-xl"></div>
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Filed Today</p>
                     <h3 class="text-3xl font-bold text-blue-400 mt-2"><?php echo $today_count; ?></h3>
                 </div>
 
                 <!-- Pending Complaints -->
-                <div class="flex-shrink-0 w-64 snap-start bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-amber-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-amber-500/5">
+                <div class="bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-amber-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-amber-500/5">
                     <div class="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-amber-500/5 rounded-full blur-xl"></div>
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Pending (New)</p>
                     <h3 class="text-3xl font-bold text-amber-400 mt-2"><?php echo $pending_count; ?></h3>
                 </div>
 
                 <!-- In Progress Complaints -->
-                <div class="flex-shrink-0 w-64 snap-start bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-violet-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-violet-500/5">
+                <div class="bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-violet-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-violet-500/5">
                     <div class="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-violet-500/5 rounded-full blur-xl"></div>
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">In Progress</p>
                     <h3 class="text-3xl font-bold text-violet-400 mt-2"><?php echo $inprogress_count; ?></h3>
                 </div>
 
                 <!-- Resolved Complaints -->
-                <div class="flex-shrink-0 w-64 snap-start bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-emerald-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-emerald-500/5">
+                <div class="bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-emerald-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-emerald-500/5">
                     <div class="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-emerald-500/5 rounded-full blur-xl"></div>
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Resolved / Closed</p>
                     <h3 class="text-3xl font-bold text-emerald-400 mt-2"><?php echo $resolved_count; ?></h3>
                 </div>
 
                 <!-- Rejected Complaints -->
-                <div class="flex-shrink-0 w-64 snap-start bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-rose-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-rose-500/5">
+                <div class="bg-gradient-to-tr from-slate-900 to-slate-900/60 border border-slate-800 border-l-4 border-l-rose-500 rounded-2xl p-6 relative overflow-hidden shadow-lg shadow-black/30 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-rose-500/5">
                     <div class="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-rose-500/5 rounded-full blur-xl"></div>
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Rejected</p>
                     <h3 class="text-3xl font-bold text-rose-400 mt-2"><?php echo $rejected_count; ?></h3>

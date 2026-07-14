@@ -35,6 +35,7 @@ function init() {
     setupLogoutModalListener();
     setupTabVisibilityAutoLogout();
     setupPasswordVisibilityToggles();
+    setupAlertAutoDismiss();
     
     // Add animations styles to head if not present
     if (!document.getElementById('scms-animation-styles')) {
@@ -197,30 +198,60 @@ function triggerLogoutModal(logoutUrl) {
     });
 }
 
-// --- 3. AUTO-LOGOUT WHEN SWITCHING TABS OR MINIMIZING ---
+// --- 3. AUTO-LOGOUT WHEN SWITCHING TABS OR LEAVING BROWSER ---
 function setupTabVisibilityAutoLogout() {
     const path = window.location.pathname;
     // Do not run on authentication pages to prevent redirect loops
     const isAuthPage = path.includes('login.php') || path.includes('register.php') || path.includes('logout.php') || path.includes('create_admin.php');
     
     if (!isAuthPage) {
-        // CRITICAL BUG FIX: Track if the page is currently unloading to load another page on this site
+        // Track page unloading to prevent logging out during normal link navigation
         let isUnloading = false;
         window.addEventListener('beforeunload', () => {
             isUnloading = true;
         });
 
-        document.addEventListener('visibilitychange', () => {
-            // Only trigger auto-logout if tab is hidden AND we are NOT simply navigating to a different page on the system
-            if (document.visibilityState === 'hidden' && !isUnloading) {
-                // Get current filename and query parameters (e.g., view_complaint_student.php?id=5)
-                const currentPage = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
-                const currentQuery = window.location.search;
-                const redirectUrl = currentPage + currentQuery;
-                
-                // Immediately log out and pass current page as redirect target
-                window.location.href = 'logout.php?redirect=' + encodeURIComponent(redirectUrl);
+        // Guard against file upload pickers which blur the browser window natively
+        let isFilePickerOpen = false;
+        document.addEventListener('click', (e) => {
+            const fileInput = e.target.closest('input[type="file"]');
+            if (fileInput) {
+                isFilePickerOpen = true;
+                // Reset file picker flag after 20 seconds
+                setTimeout(() => {
+                    isFilePickerOpen = false;
+                }, 20000);
             }
+        });
+        window.addEventListener('focus', () => {
+            isFilePickerOpen = false;
+        });
+
+        const performLogout = () => {
+            if (isUnloading || isFilePickerOpen) return;
+            
+            // Get current filename and query parameters (e.g. view_complaint_student.php?id=5)
+            const currentPage = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
+            const currentQuery = window.location.search;
+            const redirectUrl = currentPage + currentQuery;
+            
+            // Immediately log out and pass current page as redirect target
+            window.location.href = 'logout.php?redirect=' + encodeURIComponent(redirectUrl);
+        };
+
+        // Trigger on visibility hide (switching tabs or minimizing)
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                performLogout();
+            }
+        });
+
+        // Trigger on window blur (leaving browser or clicking other app window)
+        window.addEventListener('blur', () => {
+            // Tiny delay to ensure visibility state or other focus triggers don't collide
+            setTimeout(() => {
+                performLogout();
+            }, 250);
         });
     }
 }
@@ -268,4 +299,47 @@ function setupPasswordVisibilityToggles() {
 
         wrapper.appendChild(toggleBtn);
     });
+}
+
+// --- 5. AUTOMATIC ALERT AUTO-DISMISS AFTER 5 SECONDS ---
+function setupAlertAutoDismiss() {
+    const selectors = [
+        '[id*="alert"]', 
+        '[id*="error"]',
+        '[id*="success"]',
+        '.bg-rose-500\\/10', 
+        '.bg-emerald-500\\/10'
+    ];
+    
+    // Select all potential error/success alert containers
+    const alerts = Array.from(document.querySelectorAll(selectors.join(', ')));
+    
+    alerts.forEach(alert => {
+        // Skip hidden template containers that have no display text
+        if (!alert.textContent.trim() && alert.id === 'js-error-alert') {
+            // Keep observing in case it gets shown dynamically
+            const observer = new MutationObserver(() => {
+                if (!alert.classList.contains('hidden')) {
+                    dismissElement(alert);
+                    observer.disconnect();
+                }
+            });
+            observer.observe(alert, { attributes: true, attributeFilter: ['class'] });
+            return;
+        }
+        
+        dismissElement(alert);
+    });
+    
+    function dismissElement(el) {
+        el.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        
+        setTimeout(() => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(-8px)';
+            setTimeout(() => {
+                el.style.display = 'none';
+            }, 600);
+        }, 5000); // 5 seconds duration
+    }
 }
