@@ -86,6 +86,7 @@ unset($_SESSION['success'], $_SESSION['error']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Notifications | Student Complaint Management System</title>
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Theme overrides and dynamic theme switch -->
