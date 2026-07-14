@@ -119,7 +119,7 @@ try {
     
     if (!$complaint = mysqli_fetch_assoc($result)) {
         mysqli_stmt_close($stmt);
-        $_SESSION['error'] = "Complaint ticket not found or access denied.";
+        $_SESSION['error'] = "Complaint not found or access denied.";
         header("Location: student_dashboard.php");
         exit();
     }
@@ -316,7 +316,7 @@ unset($_SESSION['success'], $_SESSION['error']);
             </div>
         </div>
 
-        <!-- Scrollable content split into Ticket Details & Discussion -->
+        <!-- Scrollable content split into Complaint Details & Discussion -->
         <main class="flex-1 overflow-y-auto p-6 space-y-6">
             
             <!-- Alert Display -->
@@ -343,7 +343,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                 
                 <!-- Left 2 Columns: Complaint Details & Chat -->
                 <div class="lg:col-span-2 space-y-6">
-                    <!-- Ticket Details Card -->
+                    <!-- Complaint Details Card -->
                     <div class="bg-slate-900/60 border border-slate-800 rounded-2xl shadow-xl p-6 relative overflow-hidden backdrop-blur-xl">
                         <!-- Upper Detail Info -->
                         <div class="flex flex-wrap justify-between items-start gap-4 pb-6 border-b border-slate-800">
@@ -381,7 +381,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                             </div>
                         </div>
 
-                        <!-- Ticket Body -->
+                        <!-- Complaint Body -->
                         <div class="py-6 space-y-6">
                             <!-- Category, Assigned Dept and Date -->
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">

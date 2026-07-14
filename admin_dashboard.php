@@ -105,7 +105,7 @@ $where_clauses = [];
 $params = [];
 $types = "";
 
-// If the logged-in user is a regular admin (not super_admin), restrict to their department or unassigned tickets
+// If the logged-in user is a regular admin (not super_admin), restrict to their department or unassigned complaints
 if ($admin_role === 'admin') {
     // Get the logged in admin's department
     $admin_dept = $_SESSION['department'] ?? '';

@@ -299,7 +299,7 @@ unset($_SESSION['error']);
                             </a>
                             <button type="submit" 
                                 class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-600/20 text-sm font-semibold transition-all active:scale-[0.98]">
-                                Submit Ticket
+                                Submit Complaint
                             </button>
                         </div>
                     </form>

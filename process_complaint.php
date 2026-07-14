@@ -156,7 +156,7 @@ try {
         VALUES (?, ?, ?, ?, ?, 'pending', ?, ?)
     ";
     $stmt = mysqli_prepare($conn, $insert_query);
-    mysqli_stmt_bind_param($stmt, "isssssss", $student_id, $title, $description, $category, $priority, $attachment_path, $assigned_dept);
+    mysqli_stmt_bind_param($stmt, "issssss", $student_id, $title, $description, $category, $priority, $attachment_path, $assigned_dept);
     mysqli_stmt_execute($stmt);
     
     // Retrieve the ID of the new complaint
@@ -184,7 +184,7 @@ try {
     // Commit Transaction
     mysqli_commit($conn);
 
-    $_SESSION['success'] = "Complaint ticket #{$complaint_id} has been successfully submitted and routed to administrators.";
+    $_SESSION['success'] = "Complaint #{$complaint_id} has been successfully submitted and routed to administrators.";
     header("Location: student_dashboard.php");
     exit();
 

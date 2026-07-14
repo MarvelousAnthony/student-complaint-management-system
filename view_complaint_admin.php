@@ -73,12 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
 
         mysqli_commit($conn);
-        $_SESSION['success'] = "Ticket status and priority successfully updated.";
+        $_SESSION['success'] = "Complaint status and priority successfully updated.";
 
     } catch (Exception $e) {
         mysqli_rollback($conn);
         error_log("Failed to update status/priority: " . $e->getMessage());
-        $_SESSION['error'] = "Failed to update ticket parameters. Please try again.";
+        $_SESSION['error'] = "Failed to update complaint parameters. Please try again.";
     }
 
     header("Location: view_complaint_admin.php?id=" . $complaint_id);
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
         // B. Insert automated comment message to chat log
         $label = empty($assigned_dept) ? "Unassigned" : "the '{$assigned_dept}' Department";
-        $log_message = "📢 System Note: Ticket assigned to {$label} by Admin {$admin_name}.";
+        $log_message = "📢 System Note: Complaint assigned to {$label} by Admin {$admin_name}.";
         
         $msg_query = "INSERT INTO messages (complaint_id, sender_id, message_text) VALUES (?, ?, ?)";
         $msg_stmt = mysqli_prepare($conn, $msg_query);
@@ -155,12 +155,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
 
         mysqli_commit($conn);
-        $_SESSION['success'] = "Ticket successfully assigned/routed.";
+        $_SESSION['success'] = "Complaint successfully assigned/routed.";
 
     } catch (Exception $e) {
         mysqli_rollback($conn);
-        error_log("Failed to update ticket assignment: " . $e->getMessage());
-        $_SESSION['error'] = "Failed to route ticket. Please try again.";
+        error_log("Failed to update complaint assignment: " . $e->getMessage());
+        $_SESSION['error'] = "Failed to route complaint. Please try again.";
     }
 
     header("Location: view_complaint_admin.php?id=" . $complaint_id);
@@ -254,7 +254,7 @@ try {
     
     if (!$complaint = mysqli_fetch_assoc($result)) {
         mysqli_stmt_close($stmt);
-        $_SESSION['error'] = "Complaint ticket not found.";
+        $_SESSION['error'] = "Complaint not found.";
         header("Location: admin_dashboard.php");
         exit();
     }
@@ -405,14 +405,14 @@ unset($_SESSION['success'], $_SESSION['error']);
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    Back to Tickets
+                    Back to Complaints
                 </a>
             </div>
 
-            <!-- Ticket ID Header badge -->
+            <!-- Complaint ID Header badge -->
             <div>
                 <span class="text-xs px-3 py-1.5 bg-slate-900 border border-slate-800 text-indigo-400 rounded-full font-mono font-semibold">
-                    Ticket #<?php echo $complaint['id']; ?>
+                    Complaint #<?php echo $complaint['id']; ?>
                 </span>
             </div>
         </header>
@@ -500,7 +500,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                 
                 <!-- Left 2 Columns: Complaint & Chat -->
                 <div class="lg:col-span-2 space-y-6">
-                    <!-- Ticket Details Card -->
+                    <!-- Complaint Details Card -->
                     <div class="bg-slate-900/60 border border-slate-800 rounded-2xl shadow-xl p-6 backdrop-blur-xl">
                         <!-- Upper Detail Title -->
                         <div class="pb-6 border-b border-slate-800">
@@ -508,7 +508,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                             <h2 class="text-xl font-bold text-white mt-1"><?php echo htmlspecialchars($complaint['title']); ?></h2>
                         </div>
 
-                        <!-- Ticket Body & Student info -->
+                        <!-- Complaint Body & Student info -->
                         <div class="py-6 space-y-6">
                             <!-- Student Details Box -->
                             <div class="bg-slate-950/50 rounded-xl p-4 border border-slate-850">
