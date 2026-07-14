@@ -245,14 +245,6 @@ function setupTabVisibilityAutoLogout() {
                 performLogout();
             }
         });
-
-        // Trigger on window blur (leaving browser or clicking other app window)
-        window.addEventListener('blur', () => {
-            // Tiny delay to ensure visibility state or other focus triggers don't collide
-            setTimeout(() => {
-                performLogout();
-            }, 250);
-        });
     }
 }
 
