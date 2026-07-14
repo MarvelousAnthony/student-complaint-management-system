@@ -1,0 +1,240 @@
+/* 
+ * theme.css
+ * 
+ * High-fidelity Light Mode styling system for Student Complaint Management System.
+ * Dynamically overrides slate-950 dark mode variables and utility classes when 
+ * the 'light' class is present on the root <html> or <body> tags.
+ */
+
+/* ==========================================
+   GLOBAL OVERRIDES (HTML & BODY)
+   ========================================== */
+html.light,
+html.light body,
+html.light main {
+    background-color: #f8fafc !important; /* slate-50 background */
+    background-image: none !important;
+    color: #0f172a !important; /* slate-900 text */
+}
+
+/* ==========================================
+   WILDCARD COLOR MAPPING (SLATE TO WHITE/GRAY)
+   ========================================== */
+
+/* Overrides any slate background class (including opacity variations like bg-slate-900/60) to pure white */
+html.light [class*="bg-slate-950"],
+html.light [class*="bg-slate-900"],
+html.light [class*="bg-slate-850"],
+html.light aside,
+html.light header {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    border-color: #e2e8f0 !important; /* slate-200 border */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Overrides main background color to ensure body remains light-gray */
+html.light .bg-slate-950,
+html.light body,
+html.light main {
+    background-color: #f8fafc !important;
+}
+
+/* Overrides sub-cards and inner container backgrounds to slate-100 */
+html.light [class*="bg-slate-800"],
+html.light [class*="bg-slate-800/"],
+html.light thead {
+    background-color: #f1f5f9 !important; /* slate-100 */
+    border-color: #e2e8f0 !important;
+}
+
+/* Overrides gradient color stops to prevent dark gradients showing on white cards */
+html.light [class*="bg-gradient-"],
+html.light [class*="from-slate-"],
+html.light [class*="to-slate-"] {
+    background-image: none !important;
+    background-color: #ffffff !important;
+}
+
+/* ==========================================
+   WILDCARD TEXT COLOR MAPPING
+   ========================================== */
+
+/* Overrides white or light gray texts to dark slate-900 */
+html.light .text-white,
+html.light [class*="text-slate-100"],
+html.light [class*="text-slate-200"],
+html.light [class*="text-slate-300"],
+html.light [class*="text-slate-350"],
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
+html.light h5,
+html.light h6,
+html.light strong,
+html.light b,
+html.light td {
+    color: #0f172a !important; /* slate-900 */
+}
+
+/* Overrides medium-gray texts to slate-600 */
+html.light [class*="text-slate-400"],
+html.light [class*="text-slate-500"],
+html.light [class*="text-slate-550"] {
+    color: #475569 !important; /* slate-600 */
+}
+
+/* Overrides dark-gray texts to slate-500 */
+html.light [class*="text-slate-600"] {
+    color: #64748b !important; /* slate-500 */
+}
+
+/* Hover row overrides for lists and tables */
+html.light [class*="hover\:bg-"]:hover,
+html.light tr.hover\:bg-slate-850\/40:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+/* ==========================================
+   WILDCARD BORDER OVERRIDES
+   ========================================== */
+html.light [class*="border-slate-"],
+html.light border,
+html.light td,
+html.light th {
+    border-color: #e2e8f0 !important; /* slate-200 */
+}
+
+html.light [class*="divide-slate-"] > :not([hidden]) ~ :not([hidden]) {
+    border-color: #e2e8f0 !important;
+}
+
+/* ==========================================
+   FORM INPUTS, DROPDOWNS & TEXTAREAS
+   ========================================== */
+html.light input,
+html.light select,
+html.light textarea,
+html.light input[type="text"],
+html.light input[type="email"],
+html.light input[type="password"] {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important; /* slate-300 */
+    color: #0f172a !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+    color: #94a3b8 !important; /* slate-400 */
+}
+
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+    border-color: #6366f1 !important; /* indigo-500 */
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* ==========================================
+   NAVIGATION LINKS & ICON HIGHLIGHTS
+   ========================================== */
+html.light nav a[class*="text-slate-400"] {
+    color: #475569 !important;
+}
+html.light nav a[class*="text-slate-400"]:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+/* Active sidebar/menu link styles */
+html.light .bg-indigo-650,
+html.light .bg-indigo-600 {
+    background-color: #4f46e5 !important;
+    color: #ffffff !important;
+}
+html.light .bg-indigo-600\/10 {
+    background-color: rgba(79, 70, 229, 0.1) !important;
+}
+
+html.light .text-indigo-400,
+html.light .text-indigo-300,
+html.light span.text-indigo-400,
+html.light a.text-indigo-400 {
+    color: #4f46e5 !important; /* indigo-600 */
+}
+
+/* ==========================================
+   STATUS BADGES
+   ========================================== */
+html.light .bg-amber-500\/10 {
+    background-color: #fef3c7 !important; /* amber-100 */
+    color: #b45309 !important; /* amber-700 */
+    border: 1px solid #fde68a !important; /* amber-200 */
+}
+html.light .bg-violet-500\/10 {
+    background-color: #f5f3ff !important;
+    color: #6d28d9 !important;
+    border: 1px solid #ddd6fe !important;
+}
+html.light .bg-blue-500\/10 {
+    background-color: #eff6ff !important;
+    color: #1d4ed8 !important;
+    border: 1px solid #bfdbfe !important;
+}
+html.light .bg-emerald-500\/10 {
+    background-color: #ecfdf5 !important;
+    color: #047857 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+html.light .bg-rose-500\/10 {
+    background-color: #fff1f2 !important;
+    color: #be123c !important;
+    border: 1px solid #fecdd3 !important;
+}
+html.light .bg-slate-700\/10 {
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+/* ==========================================
+   CHAT / INTERACTIVE DISCUSSIONS
+   ========================================== */
+html.light .chat-bubble-incoming,
+html.light .chat-bubble-left,
+html.light .chat-left,
+html.light .bg-slate-800,
+html.light [class*="bg-slate-800"] {
+    background-color: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+}
+html.light [class*="bg-slate-800"] [class*="text-slate-"],
+html.light [class*="bg-slate-800"] span {
+    color: #475569 !important;
+}
+html.light .chat-bubble-outgoing,
+html.light .chat-bubble-right,
+html.light .chat-right {
+    background-color: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+/* Timeline alignment track and circles */
+html.light .border-l-2 {
+    border-color: #e2e8f0 !important;
+}
+html.light .timeline-circle-inactive {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Scrollbars overrides */
+html.light ::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+}
+html.light ::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+}

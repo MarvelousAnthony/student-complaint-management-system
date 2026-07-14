@@ -1,0 +1,8 @@
+.git
+.gitignore
+uploads/*
+*.sql
+*.bak
+update_admin_dept.php
+Dockerfile
+.dockerignore
